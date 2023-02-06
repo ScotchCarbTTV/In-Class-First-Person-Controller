@@ -35,6 +35,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         //check if the player is pressing q or e
+       /*
         if (Input.GetKey("q"))
         {
             //rotate the player left or right
@@ -45,7 +46,7 @@ public class PlayerMove : MonoBehaviour
             //rotate the player left or right
             transform.Rotate(transform.up * turnSpeed * Time.deltaTime);
             
-        }
+        }*/
 
         if (Input.GetKey(KeyCode.Space))
         {
