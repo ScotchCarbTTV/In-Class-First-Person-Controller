@@ -15,9 +15,13 @@ public class Ball : MonoBehaviour
         if(!TryGetComponent<Rigidbody>(out rbody))
         {
             Debug.LogError("No rigidbody attached to ball!");
-            rbody.velocity = ballVelocity * ballSpeed;
+            
         }
         //else, set the starting velocity randomly to left or right
+        else
+        {
+            rbody.velocity = ballVelocity * ballSpeed;
+        }
     }
 
     // Update is called once per frame
@@ -37,7 +41,15 @@ public class Ball : MonoBehaviour
     }
 
     //method for setting velocity
-    //takes in a variable for x axis
+    public void SetVelocity(float dirX, float dirZ, float spinVal)
+    {
+        //takes in a variable for x axis & apply to ballVelocity
+        float newX = ballVelocity.x * dirX;
+        float newZ = ballVelocity.z * dirZ;
+
+        ballVelocity = new Vector3(newX, 0, newZ);
+    }
+    
     //takes in a variable for y axis
     //takes in a variable for 'spin'
     //if spin isn't zero, the y axis velocity will be adjusted by that value after being randomly adjusted/tweaked
@@ -49,11 +61,26 @@ public class Ball : MonoBehaviour
         if(collision.gameObject.TryGetComponent<Paddle>(out Paddle pdl))
         {
             //flip the x velocity of the ball by multiplying by -1
+            SetVelocity(-1, 1, 0);
         }
         //if it isn't a paddle, check if it's a wall
-            //if it's the top or bottom wall then change the velocity of the ball so that the Y axis is inverted
-            //if it's the left wall add a point to right paddle and use the reset method, passing it 'right' as the start direction
-            //if it's the right wall add a point to left paddle and use the reset method, passing it 'left' as the start direction
+        else if(collision.gameObject.tag == "topbottom")
+        {
+            SetVelocity(1, -1, 0);
+        }
+        else if(collision.gameObject.tag == "leftWall")
+        {
+            Debug.Log("Right player scored!");
+            SetVelocity(-1, 1, 0);
+        }
+        else if (collision.gameObject.tag == "rightWall")
+        {
+            Debug.Log("Left player scored!");
+            SetVelocity(-1, 1, 0);
+        }
+        //if it's the top or bottom wall then change the velocity of the ball so that the Y axis is inverted
+        //if it's the left wall add a point to right paddle and use the reset method, passing it 'right' as the start direction
+        //if it's the right wall add a point to left paddle and use the reset method, passing it 'left' as the start direction
     }
 
 }

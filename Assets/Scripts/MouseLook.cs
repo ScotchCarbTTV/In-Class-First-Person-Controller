@@ -37,6 +37,8 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Interact();
+
         //get the mouse x and mouse y movement and assign to floats
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
@@ -55,5 +57,15 @@ public class MouseLook : MonoBehaviour
         //update the transform.rotation
         transform.rotation = localRot;
         player.transform.rotation = bodyRot;
+    }
+
+    private void Interact()
+    {
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, transform.forward, out hit, 10))
+        {
+            Debug.Log("There is a " + hit.collider.name + " in front of us");
+        }
     }
 }
